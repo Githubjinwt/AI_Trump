@@ -24,14 +24,28 @@ def transfer(Input):
 
 demo = gr.Interface(
     fn=transfer,
-    inputs=gr.Textbox(label="Input Neutral words here"),
-    outputs=gr.TextArea(label="Transfered words"),
+    # 设置输入
+    inputs=gr.Textbox(label="Input Neutral sentences here"),
+    # 设置输出
+    outputs=gr.TextArea(label="Transfered sentences"),
+    # 设置输入参数示例
     examples=[
-        ["abc"],
-        ["Make America great again."],
+        ["We can make America stronger."],
+        ["China."],
+        ["I'm Donald Trump."],
+        ["I like machine learning."],
+        ["Democrats are trying to impeach President Trump because they are jealous of his success."],
+        ["You're out of luck."],
+        ["Campaign finance reform is an important issue that affects the integrity of our democracy."],
+        ["We need law enforcement to keep order."],
+        ["The ongoing debate over the controversial issue of gun control is a complex and delicate matter that requires careful consideration and negotiation in order to find a viable solution."],
+        ["Fuck you."]
     ],
-    title="Text Style Transfer to Trump",
-    description="Here's a sample transfering text style to Trump-Style . Enjoy!",
+    # 设置网页标题
+    title="AI Trump(赛博川普): Text Style Transfer to Trump",
+    # 左上角的描述文字
+    description="Here's a web transfering your sentence style to Trump-Style. Enjoy!",
+    # 左下角的文字
     article = "Check out the examples"
 )
 demo.launch(share=True)
