@@ -58,6 +58,7 @@ def flair_sim(inputs, preds):
 def calc_semantic_similarity(inputs, preds):
     assert len(inputs) == len(preds)
 
+    print('Calculating semantic similarity')
     web_model = WebBertSimilarity(device='cuda', batch_size=10) #defaults to GPU prediction
     # clinical_model = ClinicalBertSimilarity(device='cuda', batch_size=10) #defaults to GPU prediction
     scores = web_model.predict(list(zip(inputs, preds)))

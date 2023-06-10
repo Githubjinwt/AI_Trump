@@ -143,6 +143,7 @@ def calc_fluency(sentences):
     Count fluency index by bert.
     Mask one word and guess it by bert.
     '''
+    print('Calculating fluency')
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     model = MaskedBert.from_pretrained(path="bert-base-cased", device=device, sentence_length=50)
     ppl = model.perplexity(x=sentences, verbose=False, temperature=1.0, batch_size=16)
