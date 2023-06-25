@@ -4,7 +4,7 @@ import tqdm
 import torch
 import gc
 from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
-from evaluation.similarity import calc_bleu, flair_sim, calc_semantic_similarity
+from evaluation.similarity import calc_bleu, calc_semantic_similarity, calc_lexical_accuracy
 from evaluation.fluency import calc_fluency
 
 def transfer(Input, tokenizer, model):
@@ -27,16 +27,18 @@ def cleanup():
     gc.collect()
     torch.cuda.empty_cache()
 
-def count_score(pred_path):
+def count_score(input_path, pred_path):
     res = pd.read_csv(pred_path, encoding='utf-8')
     Predict = list(res['Predict'])
     Reference = list(res['Reference'])
 
+    res = pd.read_csv(input_path, encoding='utf-8')
+    Input = list(res['Neutral'])
+
     # similarity
     BLEU = calc_bleu(Reference, Predict)
 
-    emb_sim_stats = flair_sim(Reference, Predict)
-    lexical_sim = emb_sim_stats.mean()
+    lexical_accu = calc_lexical_accuracy(Input, Reference, Predict)
 
     semantic_sim_stats = calc_semantic_similarity(Reference, Predict)
     semantic_sim = semantic_sim_stats.mean()
@@ -45,11 +47,14 @@ def count_score(pred_path):
     # fluency, lower is better
     FL_input = calc_fluency(Reference)
     FL_pred = calc_fluency(Predict)
-    return BLEU, lexical_sim, semantic_sim, FL_input, FL_pred
+
+    return BLEU, lexical_accu, semantic_sim, FL_input, FL_pred
 
 if __name__ == "__main__":
     generate_predict(data_path="your data path",
                      pred_path="your predict path",
                      model_path="your model path",
                      tok_path="your checkpoint path")
-    BLEU, lexical_sim, semantic_sim, FL_input, FL_pred = count_score(pred_path="your predict path")
+    BLEU, lexical_accu, semantic_sim, FL_input, FL_pred = count_score(
+        input_path="your data path",
+        pred_path="your predict path")
