@@ -99,3 +99,4 @@ if __name__ == "__main__":
         pos += repeat
         # if check_mul_times(dataOld.loc[i, 'content']):
     dataNew.to_csv('vicuna.csv', encoding='utf-8')
+

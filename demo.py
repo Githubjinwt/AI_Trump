@@ -65,3 +65,4 @@ demo = gr.Interface(
     article = "Check out the examples"
 )
 demo.launch(share=True)
+

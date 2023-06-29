@@ -74,3 +74,4 @@ if __name__ == "__main__":
     BLEU, lexical_accu, semantic_sim, FL_input, FL_pred = count_score(
         input_path=opt.data_path,
         pred_path=opt.save_path)
+
