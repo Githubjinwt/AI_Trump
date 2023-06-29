@@ -10,6 +10,7 @@ from torch.nn.functional import cosine_similarity
 from semantic_text_similarity.models import WebBertSimilarity
 # from semantic_text_similarity.models import ClinicalBertSimilarity
 
+# 计算BLEU, using NLTK
 def calc_bleu(inputs, preds):
     bleu_sim = 0
     counter = 0
@@ -54,7 +55,7 @@ def flair_sim(inputs, preds):
 
     return emb_sim
 
-
+# 计算ACC, embedding后计算余弦相似度
 def calc_lexical_accuracy(inputs, preds, refes):
     assert len(inputs) == len(preds)
     assert len(inputs) == len(refes)
@@ -104,6 +105,7 @@ def calc_lexical_accuracy(inputs, preds, refes):
     return accu / len(inputs)
 
 
+# 计算语义相似度SC
 def calc_semantic_similarity(inputs, preds):
     assert len(inputs) == len(preds)
 

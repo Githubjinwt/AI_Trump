@@ -1,11 +1,26 @@
+# generate model prediction, and evaluate
+
 import pandas as pd
-import numpy as np
+import argparse
 import tqdm
 import torch
 import gc
 from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 from evaluation.similarity import calc_bleu, calc_semantic_similarity, calc_lexical_accuracy
 from evaluation.fluency import calc_fluency
+
+def parse_option():
+    parser = argparse.ArgumentParser("command line arguments for evaluation.")
+    parser.add_argument('--data_path', type = str, required=True,
+                        help = 'source input data path.')
+    parser.add_argument('--save_path', type = str, default = "prediction/predict.csv",
+                        help = 'model predict data saving path.')
+    parser.add_argument('--model_path', type = str, default = "model/model2",
+                        help = 'model path.')
+    parser.add_argument('--checkpoint_path', type = str, default = "model/checkpoint2",
+                        help = 'checkpoint path.') 
+    opt = parser.parse_args()
+    return opt
 
 def transfer(Input, tokenizer, model):
     input_ids = tokenizer.batch_encode_plus([Input], max_length=1024, return_tensors='pt', truncation=True)['input_ids']
@@ -51,10 +66,11 @@ def count_score(input_path, pred_path):
     return BLEU, lexical_accu, semantic_sim, FL_input, FL_pred
 
 if __name__ == "__main__":
-    generate_predict(data_path="your data path",
-                     pred_path="your predict path",
-                     model_path="your model path",
-                     tok_path="your checkpoint path")
+    opt = parse_option()
+    generate_predict(data_path=opt.data_path,
+                     pred_path=opt.save_path,
+                     model_path=opt.model_path,
+                     tok_path=opt.checkpoint_path)
     BLEU, lexical_accu, semantic_sim, FL_input, FL_pred = count_score(
-        input_path="your data path",
-        pred_path="your predict path")
+        input_path=opt.data_path,
+        pred_path=opt.save_path)

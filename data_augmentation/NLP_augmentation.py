@@ -56,8 +56,8 @@ if __name__=='__main__':
 
     for i in tqdm.tqdm(range(len(dataOld))):
         dataNew.loc[i, 'Trump'] = dataOld.loc[i, 'Trump']
-        # dataNew.loc[i, 'Neutral'] = back_translate(dataOld.loc[i, 'Neutral'])
-        dataNew.loc[i, 'Neutral'] = substitute_by_keyboard(dataOld.loc[i, 'Neutral'])[0]
+        dataNew.loc[i, 'Neutral'] = back_translate(dataOld.loc[i, 'Neutral'])
+        dataNew.loc[i, 'Neutral'] = substitute_by_keyboard(dataNew.loc[i, 'Neutral'])[0]
     data = pd.concat([dataOld, dataNew], axis=0, ignore_index=True)
     data = data[['Trump', 'Neutral']]
     data.to_csv(out_path, encoding='utf-8', index=False)

@@ -35,9 +35,6 @@ def ChatCompletion(msg):
     message = response['choices'][0]['message']['content']
     return message
 
-promptNeutral2Trump = '''
-假装你是美国前总统特朗普，现在你需要用特朗普的语气说出下面的话:"America will become powerful again in the future."
-'''
 
 promptTrump2Neutral = '''
 The following sentence was spoken by former US President Trump,
@@ -58,6 +55,7 @@ for i in tqdm.tqdm(range(0, len(data))):
     data.loc[i, 'Neutral'] = ChatCompletion(msg=promptTrump2Neutral.format(data.loc[i, 'Trump']))
     # save every step, in case disconnection
     data[['Trump', 'Neutral']].to_csv(out_path, encoding='utf-8', index=False)
+    # one minute three times limitation
     sleep(20)
 
 # print(completion(prompt=promptTrump2Neutral.format(this_msg)))

@@ -1,13 +1,29 @@
-# download the model and checkpoint, then try AI_Trump local!!
+# download the model and checkpoint, and try AI_Trump local!!
 
 import gradio as gr
-
+import argparse
 from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
-model1 = AutoModelForSeq2SeqLM.from_pretrained("model1 path")
-tokenizer1 = AutoTokenizer.from_pretrained("checkpoint1 path")
 
-model2 = AutoModelForSeq2SeqLM.from_pretrained("model2 path")
-tokenizer2 = AutoTokenizer.from_pretrained("checkpoint2 path")
+def parse_option():
+    parser = argparse.ArgumentParser("command line arguments for demo.")
+    parser.add_argument('--model1_path', type = str, default = "model/model1",
+                        help = 'model1 saving path.')
+    parser.add_argument('--model2_path', type = str, default = "model/model2",
+                        help = 'model2 saving path.')
+    parser.add_argument('--checkpoint1_path', type = str, default = "model/checkpoint1",
+                        help = 'checkpoint1 saving path.')
+    parser.add_argument('--checkpoint2_path', type = str, default = "model/checkpoint2",
+                        help = 'checkpoint2 saving path.') 
+    opt = parser.parse_args()
+    return opt
+
+opt = parse_option()
+
+model1 = AutoModelForSeq2SeqLM.from_pretrained(opt.model1_path)
+tokenizer1 = AutoTokenizer.from_pretrained(opt.checkpoint1_path)
+
+model2 = AutoModelForSeq2SeqLM.from_pretrained(opt.model2_path)
+tokenizer2 = AutoTokenizer.from_pretrained(opt.checkpoint2_path)
 
 # model = AutoModelForSeq2SeqLM.from_pretrained('facebook/bart-large-cnn')
 # tokenizer = AutoTokenizer.from_pretrained('facebook/bart-large-cnn')
